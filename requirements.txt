@@ -1,0 +1,9 @@
+streamlit
+pandas
+numpy
+plotly
+prophet
+statsmodels
+scikit-learn
+joblib
+# tensorflow  # optional - uncomment if using LSTM
