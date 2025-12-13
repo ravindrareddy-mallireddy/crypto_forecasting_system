@@ -1,0 +1,40 @@
+{
+  "0": [
+    "AAVE-USD",
+    "ADA-USD",
+    "BCH-USD",
+    "DOGE-USD",
+    "LINK-USD",
+    "MKR-USD",
+    "SOL-USD",
+    "XLM-USD",
+    "XRP-USD"
+  ],
+  "1": [
+    "BTC-USD"
+  ],
+  "2": [
+    "ALGO-USD",
+    "ATOM-USD",
+    "AVAX-USD",
+    "AXS-USD",
+    "CRV-USD",
+    "DASH-USD",
+    "DOT-USD",
+    "EOS-USD",
+    "FIL-USD",
+    "ICP-USD",
+    "MANA-USD",
+    "SHIB-USD",
+    "THETA-USD",
+    "VET-USD",
+    "XTZ-USD"
+  ],
+  "3": [
+    "BNB-USD",
+    "ETC-USD",
+    "ETH-USD",
+    "LTC-USD",
+    "XMR-USD"
+  ]
+}
