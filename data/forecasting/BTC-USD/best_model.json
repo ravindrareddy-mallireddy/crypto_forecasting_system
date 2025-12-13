@@ -1,0 +1,6 @@
+{
+  "coin": "BTC-USD",
+  "best_model": "prophet",
+  "metric_used": "RMSE",
+  "value": 19791.103119992484
+}

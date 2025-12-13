@@ -1,0 +1,8 @@
+{
+  "split_type": "time-based (from 'splits' variable)",
+  "train_start": "2023-01-12",
+  "train_end": "2025-05-12",
+  "test_start": "2025-05-13",
+  "test_end": "2025-12-11",
+  "test_ratio": 0.2
+}

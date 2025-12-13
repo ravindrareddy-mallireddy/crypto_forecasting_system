@@ -1,0 +1,6 @@
+{
+  "coin": "XRP-USD",
+  "best_model": "arima",
+  "metric_used": "RMSE",
+  "value": 1.4272380959349547
+}

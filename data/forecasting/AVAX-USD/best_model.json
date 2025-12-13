@@ -1,0 +1,6 @@
+{
+  "coin": "AVAX-USD",
+  "best_model": "prophet",
+  "metric_used": "RMSE",
+  "value": 9.465824710378598
+}

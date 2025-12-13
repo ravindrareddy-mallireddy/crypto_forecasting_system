@@ -1,0 +1,6 @@
+{
+  "arima": "ARIMA captures autocorrelation and short-term temporal structure in price series.",
+  "prophet": "Prophet models trend and seasonality with robustness to missing data.",
+  "xgb_or_rf": "XGBoost (or Random Forest fallback) captures nonlinear relationships using lag-based features.",
+  "lstm": "LSTM learns long-term temporal dependencies in sequential data."
+}

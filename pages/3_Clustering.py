@@ -42,7 +42,7 @@ def load_representative_metrics():
 
 def load_cluster_correlation(coin: str):
     df = pd.read_csv(EDA_DIR / f"cluster_correlation_{coin}.csv")
-    df.columns = [c.lower() for c in df.columns]  # normalize
+    df.columns = [c.lower() for c in df.columns]
     return df
 
 
@@ -59,8 +59,7 @@ st.markdown(
     """
 This page presents **unsupervised clustering of cryptocurrencies**
 using engineered statistical features and **PCA-based dimensionality reduction**.
-The analysis identifies groups of cryptocurrencies that exhibit similar
-market behaviour.
+To improve interpretability, cluster-level feature summaries are also provided.
 """
 )
 
@@ -80,8 +79,62 @@ fig = px.scatter(
 
 st.plotly_chart(fig, use_container_width=True)
 
+st.caption(
+    "Note: PCA preserves variance, not visual separation. "
+    "High-variance assets (e.g., Bitcoin) may dominate the projection, "
+    "causing other clusters to appear compressed."
+)
+
 # -------------------------------------------------
-# 2. Cluster Composition & Interpretation
+# 2. Cluster-Level Feature Summary (IMPORTANT FIX)
+# -------------------------------------------------
+st.header("Cluster-Level Behavioural Summary")
+
+metrics_df = rep_metrics_df.copy()
+metrics_df["cluster"] = metrics_df["cluster"].astype(str)
+
+fig = px.bar(
+    metrics_df,
+    x="cluster",
+    y=["avg_volume", "avg_drawdown"],
+    barmode="group",
+    title="Cluster-Level Trading Behaviour",
+    labels={
+        "cluster": "Cluster ID",
+        "value": "Metric Value",
+        "variable": "Feature"
+    }
+)
+
+st.plotly_chart(fig, use_container_width=True)
+
+st.caption(
+    "This chart summarises average trading volume and drawdown behaviour per cluster, "
+    "providing clearer justification for cluster separation beyond PCA visualisation."
+)
+
+# -------------------------------------------------
+# 3. Parallel Coordinates Plot (Optional but Strong)
+# -------------------------------------------------
+st.header("Parallel Coordinates Comparison")
+
+parallel_df = clusters_df.merge(
+    rep_metrics_df,
+    on="cluster",
+    how="left"
+)
+
+fig = px.parallel_coordinates(
+    parallel_df,
+    color="cluster",
+    dimensions=["avg_volume", "avg_drawdown"],
+    title="Parallel Coordinates Plot of Cluster Characteristics"
+)
+
+st.plotly_chart(fig, use_container_width=True)
+
+# -------------------------------------------------
+# 4. Cluster Composition & Interpretation
 # -------------------------------------------------
 st.header("Cluster Composition & Interpretation")
 
@@ -117,15 +170,16 @@ for cluster_id in sorted(cluster_groups.keys(), key=int):
         st.info(reason_text)
 
 # -------------------------------------------------
-# 3. Correlation Analysis for Representative Coins
+# 5. Correlation Analysis for Representative Coins
 # -------------------------------------------------
 st.header("Correlation Analysis for Representative Coins")
 
 st.markdown(
     """
-For each cluster’s representative coin, the **top 4 positively**
-and **top 4 negatively correlated cryptocurrencies** are shown.
-Correlations are computed using **daily returns**.
+For each cluster’s representative coin:
+- **Top 4 positively correlated** cryptocurrencies are shown.
+- If **true negative correlations** exist, they are displayed.
+- Otherwise, the **least correlated cryptocurrencies** are reported.
 """
 )
 
@@ -135,17 +189,25 @@ for _, row in rep_df.iterrows():
 
     corr_df = load_cluster_correlation(coin)
 
-    top_pos = (
-        corr_df[corr_df["correlation"] > 0]
+    top_positive = (
+        corr_df
         .sort_values("correlation", ascending=False)
         .head(4)
     )
 
-    top_neg = (
-        corr_df[corr_df["correlation"] < 0]
-        .sort_values("correlation")
-        .head(4)
-    )
+    negative_corrs = corr_df[corr_df["correlation"] < 0]
+
+    if not negative_corrs.empty:
+        bottom_set = negative_corrs.sort_values("correlation").head(4)
+        bottom_title = "Top 4 Negatively Correlated Coins"
+        caption_text = "Negative correlations indicate inverse price movement."
+    else:
+        bottom_set = corr_df.sort_values("correlation").head(4)
+        bottom_title = "Top 4 Least Correlated Coins"
+        caption_text = (
+            "No strong negative correlations were observed; "
+            "least correlated assets are shown instead."
+        )
 
     st.subheader(f"Cluster {cluster_id} — {coin}")
 
@@ -154,23 +216,19 @@ for _, row in rep_df.iterrows():
     with col1:
         st.markdown("**Top 4 Positively Correlated Coins**")
         st.dataframe(
-            top_pos
-            .assign(Rank=range(1, len(top_pos) + 1))
+            top_positive
+            .assign(Rank=range(1, len(top_positive) + 1))
             .set_index("Rank")
             .style.format({"correlation": "{:.3f}"})
         )
 
     with col2:
-        st.markdown("**Top 4 Negatively Correlated Coins**")
+        st.markdown(f"**{bottom_title}**")
         st.dataframe(
-            top_neg
-            .assign(Rank=range(1, len(top_neg) + 1))
+            bottom_set
+            .assign(Rank=range(1, len(bottom_set) + 1))
             .set_index("Rank")
-            .style.format({"Correlation": "{:.3f}"})
+            .style.format({"correlation": "{:.3f}"})
         )
 
-st.caption(
-    "Correlation values are based on daily percentage returns. "
-    "Positive values indicate similar price movement, while "
-    "negative values indicate inverse behaviour."
-)
+    st.caption(caption_text)

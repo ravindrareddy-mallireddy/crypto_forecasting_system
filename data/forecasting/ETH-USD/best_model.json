@@ -1,0 +1,6 @@
+{
+  "coin": "ETH-USD",
+  "best_model": "arima",
+  "metric_used": "RMSE",
+  "value": 941.6009714969387
+}
