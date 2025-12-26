@@ -3,15 +3,9 @@ import pandas as pd
 import plotly.express as px
 import os
 
-# ============================================================
-# CONFIG
-# ============================================================
 
 EVAL_PATH = "models/evaluation_results.csv"
 
-# ============================================================
-# LOAD DATA
-# ============================================================
 
 if not os.path.exists(EVAL_PATH):
     st.error("❌ evaluation_results.csv not found in models folder")
@@ -19,9 +13,6 @@ if not os.path.exists(EVAL_PATH):
 
 df = pd.read_csv(EVAL_PATH)
 
-# ============================================================
-# SIDEBAR CONTROLS
-# ============================================================
 
 st.sidebar.title("📊 Evaluation Controls")
 
@@ -39,9 +30,6 @@ if selected_coin != "All":
 if selected_model != "All":
     filtered_df = filtered_df[filtered_df["Model"] == selected_model]
 
-# ============================================================
-# MAIN PAGE
-# ============================================================
 
 st.title("📊 Model Evaluation & Comparison")
 
@@ -52,9 +40,6 @@ st.markdown(
     """
 )
 
-# ============================================================
-# METRICS TABLE
-# ============================================================
 
 st.subheader("📄 Evaluation Metrics")
 
@@ -63,9 +48,6 @@ st.dataframe(
     use_container_width=True
 )
 
-# ============================================================
-# RMSE COMPARISON (BAR CHART)
-# ============================================================
 
 st.subheader("📉 RMSE Comparison")
 
@@ -80,9 +62,6 @@ rmse_fig = px.bar(
 
 st.plotly_chart(rmse_fig, use_container_width=True)
 
-# ============================================================
-# MAE COMPARISON
-# ============================================================
 
 st.subheader("📉 MAE Comparison")
 
@@ -97,9 +76,6 @@ mae_fig = px.bar(
 
 st.plotly_chart(mae_fig, use_container_width=True)
 
-# ============================================================
-# MAPE COMPARISON
-# ============================================================
 
 st.subheader("📉 MAPE (%) Comparison")
 
@@ -114,9 +90,6 @@ mape_fig = px.bar(
 
 st.plotly_chart(mape_fig, use_container_width=True)
 
-# ============================================================
-# R2 COMPARISON
-# ============================================================
 
 st.subheader("📈 R² Comparison")
 
@@ -131,9 +104,6 @@ r2_fig = px.bar(
 
 st.plotly_chart(r2_fig, use_container_width=True)
 
-# ============================================================
-# SUMMARY INSIGHTS (AUTO)
-# ============================================================
 
 st.subheader("🧠 Quick Insights")
 

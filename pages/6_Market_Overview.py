@@ -2,9 +2,6 @@ import streamlit as st
 import pandas as pd
 import os
 
-# ============================================================
-# CONFIG
-# ============================================================
 
 MODELS_PATH = "models"
 
@@ -22,9 +19,6 @@ horizon_map = {
     "14 Days": 14
 }
 
-# ============================================================
-# PAGE TITLE
-# ============================================================
 
 st.title("🌍 Market Overview")
 
@@ -37,18 +31,12 @@ st.markdown(
     """
 )
 
-# ============================================================
-# USER CONTROLS
-# ============================================================
 
 model_name = st.selectbox("Select Forecasting Model", list(models.keys()))
 horizon_label = st.selectbox("Select Short-Term Horizon", list(horizon_map.keys()))
 
 horizon_days = horizon_map[horizon_label]
 
-# ============================================================
-# MARKET DIRECTION LOGIC
-# ============================================================
 
 rows = []
 up_count = 0
@@ -69,7 +57,6 @@ for coin in coins:
 
     forecast_price = forecast_df["Forecast_Close"].values[0]
 
-    # Load last actual price from past predictions file
     past_file = f"{coin}_{models[model_name].replace('forecast_next_6_months', 'past_predictions')}.csv"
     past_path = os.path.join(MODELS_PATH, past_file)
 
@@ -98,9 +85,6 @@ for coin in coins:
 
 market_df = pd.DataFrame(rows)
 
-# ============================================================
-# AGGREGATE MARKET SIGNAL
-# ============================================================
 
 if up_count > down_count:
     market_trend = "📈 MARKET TREND: UP"
@@ -112,9 +96,6 @@ else:
     market_trend = "➖ MARKET TREND: NEUTRAL"
     trend_color = "gray"
 
-# ============================================================
-# DISPLAY RESULTS
-# ============================================================
 
 st.subheader("📊 Aggregate Market Direction")
 
@@ -131,9 +112,6 @@ st.caption(
     "Market direction is determined using a **majority-vote aggregation** of short-term forecasts."
 )
 
-# ============================================================
-# COIN-LEVEL BREAKDOWN
-# ============================================================
 
 st.subheader("🧾 Coin-Level Contribution")
 
@@ -142,9 +120,6 @@ st.dataframe(
     use_container_width=True
 )
 
-# ============================================================
-# INTERPRETATION
-# ============================================================
 
 st.subheader("🧠 Interpretation")
 
@@ -158,9 +133,6 @@ st.markdown(
     """
 )
 
-# ============================================================
-# DISCLAIMER (AE2 SAFE)
-# ============================================================
 
 st.caption(
     "This market overview is a **forecast-based analytical tool** and does not constitute financial advice."

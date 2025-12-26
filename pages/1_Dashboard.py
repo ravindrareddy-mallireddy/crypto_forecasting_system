@@ -1,20 +1,9 @@
-# streamlit/pages/1_Dashboard.py
-"""
-Streamlit Dashboard Page for AE2
-Includes:
-- src-based imports with fallback
-- KPIs
-- Dropdown chart selection (multiple chart types)
-- Recent table
-- What-if profit calculator
-"""
 
 from pathlib import Path
 import streamlit as st
 import pandas as pd
 import numpy as np
 
-# Attempt to import full functionalities from src/
 _USE_SRC = False
 try:
     from src.io import load_dataset
@@ -25,7 +14,6 @@ try:
 except Exception:
     pass
 
-# ---------------------------- FALLBACK FUNCTIONS ----------------------------
 
 def _load_dataset_fallback():
     """Load dataset from project-level data/processed/final_df.*"""
@@ -101,7 +89,6 @@ def _calc_kpis_fallback(df_symbol):
         "volume": int(latest["volume"])
     }
 
-# Charting fallbacks come from _get_figure_by_name_fallback()
 import plotly.graph_objects as go
 import plotly.express as px
 
@@ -187,7 +174,6 @@ def _get_figure_by_name_fallback(df, name, **kw):
     if "recent" in name: return _recent_table(df, **kw)
     return _line(df, name)
 
-# Profit fallback
 def _simulate_profit_fallback(price, qty, sell):
     cost = price * qty
     revenue = sell * qty
@@ -199,7 +185,6 @@ def _simple_rec_fallback(price, expected, target=None):
     if expected > price: return "BUY"
     return "SELL"
 
-# ---------------------------- Select implementations ----------------------------
 
 if _USE_SRC:
     load_dataset_impl = load_dataset
@@ -218,12 +203,10 @@ else:
     simulate_profit_impl = _simulate_profit_fallback
     simple_recommendation_impl = _simple_rec_fallback
 
-# ---------------------------- Cache dataset ----------------------------
 @st.cache_data
 def load_cached():
     return load_dataset_impl()
 
-# ---------------------------- Render Page ----------------------------
 
 def dashboard_page(df):
     st.title("Crypto Dashboard — AE2")
@@ -234,7 +217,6 @@ def dashboard_page(df):
     end = pd.to_datetime(controls["end_date"])
     interval = controls["interval"]
 
-    # Filter
     df_pair = df[df["symbol"] == symbol].sort_values("date").reset_index(drop=True)
     mask = (df_pair["date"] >= start) & (df_pair["date"] <= end)
     df_pair = df_pair[mask]
@@ -245,14 +227,12 @@ def dashboard_page(df):
 
     df_pair = resample_df_impl(df_pair, interval)
 
-    # KPIs
     kpi = calc_kpis_impl(df_pair)
     c1, c2, c3 = st.columns(3)
     c1.metric("Price", f"£{kpi['latest_close']:.2f}")
     c2.metric("Change", f"{kpi['pct_change']:.2f}%")
     c3.metric("Volume", f"{kpi['volume']:,}")
 
-    # ---- Chart Dropdown ----
     st.subheader("Visualisation")
 
     options = [
@@ -268,7 +248,6 @@ def dashboard_page(df):
 
     choice = st.selectbox("Choose chart", options)
 
-    # parameter mapping
     if choice == "SMA overlay (20,50,200)":
         fig = get_figure_by_name_impl(df_pair, "sma overlay", windows=[20,50,200])
     elif choice == "Rolling volatility":
@@ -282,11 +261,9 @@ def dashboard_page(df):
 
     st.plotly_chart(fig, use_container_width=True)
 
-    # ---- Quick Table ----
     st.subheader("Recent rows")
     st.dataframe(df_pair.tail(10).set_index("date"))
 
-    # ---- Profit Simulator ----
     st.subheader("What-If Profit Simulator")
 
     colA, colB = st.columns(2)
@@ -305,7 +282,6 @@ def dashboard_page(df):
         else:
             st.info("Enter values and click Calculate.")
 
-# ---------------------------- Load + Display ----------------------------
 try:
     df_main = load_cached()
     dashboard_page(df_main)

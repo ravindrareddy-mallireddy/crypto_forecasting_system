@@ -2,9 +2,6 @@ import streamlit as st
 import pandas as pd
 import os
 
-# ============================================================
-# CONFIG
-# ============================================================
 
 MODELS_PATH = "models"
 
@@ -24,9 +21,6 @@ horizon_map = {
     "6 Months (180 Days)": 180
 }
 
-# ============================================================
-# PAGE TITLE
-# ============================================================
 
 st.title("💰 Profit / Investment Planner")
 
@@ -37,9 +31,6 @@ st.markdown(
     """
 )
 
-# ============================================================
-# USER INPUTS
-# ============================================================
 
 coin = st.selectbox("Select Cryptocurrency", coins)
 model_name = st.selectbox("Select Forecasting Model", list(models.keys()))
@@ -56,9 +47,6 @@ horizon_days = horizon_map[horizon_label]
 forecast_file = f"{coin}_{models[model_name]}.csv"
 forecast_path = os.path.join(MODELS_PATH, forecast_file)
 
-# ============================================================
-# LOAD FORECAST DATA
-# ============================================================
 
 if not os.path.exists(forecast_path):
     st.error("❌ Forecast data not found for the selected options.")
@@ -68,9 +56,6 @@ forecast_df = pd.read_csv(forecast_path, parse_dates=["Date"])
 
 forecast_df = forecast_df[forecast_df["Day_Number"] <= horizon_days]
 
-# ============================================================
-# BEST BUY & SELL LOGIC (AE2 APPROVED)
-# ============================================================
 
 buy_row = forecast_df.loc[forecast_df["Forecast_Close"].idxmin()]
 sell_row = forecast_df.loc[forecast_df["Forecast_Close"].idxmax()]
@@ -81,9 +66,6 @@ sell_price = sell_row["Forecast_Close"]
 buy_date = buy_row["Date"]
 sell_date = sell_row["Date"]
 
-# ============================================================
-# PROFIT / LOSS CALCULATION
-# ============================================================
 
 units_bought = investment_amount / buy_price
 final_value = units_bought * sell_price
@@ -91,9 +73,6 @@ final_value = units_bought * sell_price
 profit_loss = final_value - investment_amount
 profit_loss_pct = (profit_loss / investment_amount) * 100
 
-# ============================================================
-# RESULTS DISPLAY
-# ============================================================
 
 st.subheader("📅 Optimal Buy & Sell Dates (Forecast-Based)")
 
@@ -126,9 +105,6 @@ col4.metric(
     f"${final_value:,.2f}"
 )
 
-# ============================================================
-# WHAT-IF SCENARIO EXPLANATION
-# ============================================================
 
 st.subheader("🔍 What-If Scenario Explanation")
 
@@ -142,9 +118,6 @@ st.markdown(
     """
 )
 
-# ============================================================
-# FORECAST DATA TABLE
-# ============================================================
 
 st.subheader("📄 Forecast Prices Used")
 

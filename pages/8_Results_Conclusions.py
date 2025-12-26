@@ -2,15 +2,8 @@ import streamlit as st
 import pandas as pd
 import os
 
-# ============================================================
-# CONFIG
-# ============================================================
-
 EVAL_PATH = "models/evaluation_results.csv"
 
-# ============================================================
-# LOAD DATA
-# ============================================================
 
 if not os.path.exists(EVAL_PATH):
     st.error("❌ evaluation_results.csv not found")
@@ -18,9 +11,6 @@ if not os.path.exists(EVAL_PATH):
 
 df = pd.read_csv(EVAL_PATH)
 
-# ============================================================
-# PAGE TITLE
-# ============================================================
 
 st.title("📌 Results & Conclusions")
 
@@ -32,9 +22,6 @@ st.markdown(
     """
 )
 
-# ============================================================
-# KPI ARTICULATION (AE2 REQUIREMENT)
-# ============================================================
 
 st.subheader("📊 Key Performance Indicators (KPIs)")
 
@@ -68,9 +55,6 @@ st.markdown(
     """
 )
 
-# ============================================================
-# BEST MODEL PER COIN (BASED ON RMSE)
-# ============================================================
 
 st.subheader("🏆 Best Performing Model per Cryptocurrency (Based on RMSE)")
 
@@ -85,10 +69,6 @@ st.dataframe(
     best_models[["Symbol", "Model", "RMSE", "MAE", "MAPE (%)", "R2"]],
     use_container_width=True
 )
-
-# ============================================================
-# PERFORMANCE INTERPRETATION
-# ============================================================
 
 st.subheader("📈 Model Performance Interpretation")
 
@@ -107,9 +87,6 @@ st.markdown(
     """
 )
 
-# ============================================================
-# LIMITATIONS
-# ============================================================
 
 st.subheader("⚠️ Limitations")
 
@@ -122,9 +99,6 @@ st.markdown(
     """
 )
 
-# ============================================================
-# FUTURE WORK
-# ============================================================
 
 st.subheader("🚀 Future Work")
 
@@ -137,9 +111,6 @@ st.markdown(
     """
 )
 
-# ============================================================
-# FINAL CONCLUSION
-# ============================================================
 
 st.subheader("✅ Final Conclusion")
 

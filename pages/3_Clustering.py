@@ -1,7 +1,4 @@
-"""
-AE2 — Clustering Analysis Page
-Uses precomputed clustering outputs from Colab.
-"""
+
 
 import json
 import streamlit as st
@@ -11,18 +8,13 @@ import plotly.express as px
 
 st.set_page_config(page_title="AE2 - Clustering", layout="wide")
 
-# -------------------------------------------------
-# Resolve project root robustly
-# -------------------------------------------------
 PROJECT_ROOT = Path(__file__).resolve()
 while PROJECT_ROOT.name != "crypto_forecasting_system":
     PROJECT_ROOT = PROJECT_ROOT.parent
 
 EDA_DIR = PROJECT_ROOT / "data" / "EDA" / "clustering"
 
-# -------------------------------------------------
-# Load clustering outputs
-# -------------------------------------------------
+
 @st.cache_data
 def load_cluster_labels():
     return pd.read_csv(EDA_DIR / "cluster_labels.csv")
@@ -51,9 +43,7 @@ cluster_groups = load_cluster_groups()
 rep_df = load_representatives()
 rep_metrics_df = load_representative_metrics()
 
-# -------------------------------------------------
-# Page Header
-# -------------------------------------------------
+
 st.title("Cryptocurrency Clustering Analysis (AE2)")
 st.markdown(
     """
@@ -63,9 +53,7 @@ To improve interpretability, cluster-level feature summaries are also provided.
 """
 )
 
-# -------------------------------------------------
-# 1. PCA Cluster Visualisation
-# -------------------------------------------------
+
 st.header("Cluster Visualisation (PCA Projection)")
 
 fig = px.scatter(
@@ -85,9 +73,7 @@ st.caption(
     "causing other clusters to appear compressed."
 )
 
-# -------------------------------------------------
-# 2. Cluster-Level Feature Summary (IMPORTANT FIX)
-# -------------------------------------------------
+
 st.header("Cluster-Level Behavioural Summary")
 
 metrics_df = rep_metrics_df.copy()
@@ -113,9 +99,7 @@ st.caption(
     "providing clearer justification for cluster separation beyond PCA visualisation."
 )
 
-# -------------------------------------------------
-# 3. Parallel Coordinates Plot (Optional but Strong)
-# -------------------------------------------------
+
 st.header("Parallel Coordinates Comparison")
 
 parallel_df = clusters_df.merge(
@@ -133,9 +117,7 @@ fig = px.parallel_coordinates(
 
 st.plotly_chart(fig, use_container_width=True)
 
-# -------------------------------------------------
-# 4. Cluster Composition & Interpretation
-# -------------------------------------------------
+
 st.header("Cluster Composition & Interpretation")
 
 for cluster_id in sorted(cluster_groups.keys(), key=int):
@@ -169,9 +151,7 @@ for cluster_id in sorted(cluster_groups.keys(), key=int):
         st.markdown("**Reason for selection:**")
         st.info(reason_text)
 
-# -------------------------------------------------
-# 5. Correlation Analysis for Representative Coins
-# -------------------------------------------------
+
 st.header("Correlation Analysis for Representative Coins")
 
 st.markdown(

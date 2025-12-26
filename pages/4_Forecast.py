@@ -3,9 +3,6 @@ import pandas as pd
 import plotly.graph_objects as go
 import os
 
-# ============================================================
-# CONFIG
-# ============================================================
 
 MODELS_PATH = "models"
 
@@ -34,7 +31,6 @@ model_map = {
     }
 }
 
-# Graph horizon (UI only)
 horizon_map = {
     "1 Day": 1,
     "7 Days": 7,
@@ -42,16 +38,12 @@ horizon_map = {
     "6 Months": 180
 }
 
-# Fixed signal horizons (DO NOT CHANGE)
 SIGNAL_HORIZONS = {
     "7 Days": 7,
     "14 Days": 14,
     "30 Days": 30
 }
 
-# ============================================================
-# SIDEBAR
-# ============================================================
 
 st.sidebar.title("🔮 Forecast Controls")
 
@@ -62,9 +54,6 @@ horizon_label = st.sidebar.selectbox("Forecast Horizon (Graph Only)", list(horiz
 horizon_days = horizon_map[horizon_label]
 cfg = model_map[model_name]
 
-# ============================================================
-# LOAD DATA
-# ============================================================
 
 past_df = pd.read_csv(
     os.path.join(MODELS_PATH, f"{coin}_{cfg['past']}.csv"),
@@ -76,15 +65,9 @@ forecast_df = pd.read_csv(
     parse_dates=["Date"]
 )
 
-# ============================================================
-# GRAPH DATA (HORIZON DEPENDENT)
-# ============================================================
 
 graph_forecast_df = forecast_df[forecast_df["Day_Number"] <= horizon_days]
 
-# ============================================================
-# FIXED BUY / SELL SIGNALS (HORIZON INDEPENDENT)
-# ============================================================
 
 last_actual_price = past_df["Close"].iloc[-1]
 
@@ -115,11 +98,7 @@ for label, days in SIGNAL_HORIZONS.items():
 
 signal_df = pd.DataFrame(signal_rows)
 
-# ============================================================
-# MODEL CONFIDENCE (STATIC)
-# ============================================================
 
-# Example: derived from evaluation CSV (replace if needed)
 confidence_map = {
     "Random Forest": 98.62,
     "ARIMA": 92.15,
@@ -129,9 +108,6 @@ confidence_map = {
 
 confidence = confidence_map.get(model_name, 90.0)
 
-# ============================================================
-# PLOT
-# ============================================================
 
 fig = go.Figure()
 
@@ -168,9 +144,6 @@ fig.update_layout(
     height=600
 )
 
-# ============================================================
-# PAGE LAYOUT
-# ============================================================
 
 st.title("📈 Forecast")
 
@@ -189,9 +162,6 @@ st.caption(
 )
 
 
-# ============================================================
-# FORECAST TABLE
-# ============================================================
 
 st.subheader("📄 Forecast Data")
 

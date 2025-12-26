@@ -1,7 +1,3 @@
-"""
-AE2 — Exploratory Data Analysis (EDA)
-Clean, CSV-driven, stable version (final).
-"""
 
 import streamlit as st
 import pandas as pd
@@ -11,18 +7,14 @@ import plotly.graph_objects as go
 
 st.set_page_config(page_title="AE2 - EDA", layout="wide")
 
-# ------------------------------------------------------------------
-# Resolve project root robustly
-# ------------------------------------------------------------------
+
 PROJECT_ROOT = Path(__file__).resolve()
 while PROJECT_ROOT.name != "crypto_forecasting_system":
     PROJECT_ROOT = PROJECT_ROOT.parent
 
 EDA_DIR = PROJECT_ROOT / "data" / "EDA"
 
-# ------------------------------------------------------------------
-# Load summary stats (master index)
-# ------------------------------------------------------------------
+
 @st.cache_data
 def load_summary():
     return pd.read_csv(EDA_DIR / "summary_stats.csv")
@@ -30,9 +22,7 @@ def load_summary():
 summary_df = load_summary()
 symbols = sorted(summary_df["symbol"].unique())
 
-# ------------------------------------------------------------------
-# Inter-coin correlation helper
-# ------------------------------------------------------------------
+
 @st.cache_data
 def compute_intercoin_correlation():
     df = pd.read_parquet(PROJECT_ROOT / "data" / "processed" / "final_df.parquet")
@@ -52,9 +42,7 @@ def compute_intercoin_correlation():
 
     return corr
 
-# ------------------------------------------------------------------
-# UI controls
-# ------------------------------------------------------------------
+
 st.title("Exploratory Data Analysis (AE2)")
 
 col1, col2 = st.columns(2)
@@ -81,16 +69,12 @@ with col2:
         ]
     )
 
-# ------------------------------------------------------------------
-# 1. SUMMARY STATISTICS
-# ------------------------------------------------------------------
+
 if eda_option == "Summary Statistics":
     st.header("Summary Statistics")
     st.dataframe(summary_df[summary_df["symbol"] == symbol])
 
-# ------------------------------------------------------------------
-# 2. PRICE TREND
-# ------------------------------------------------------------------
+
 elif eda_option == "Price Trend":
     df = pd.read_csv(EDA_DIR / "returns" / f"{symbol}_returns.csv", parse_dates=["date"])
     st.plotly_chart(
@@ -98,9 +82,7 @@ elif eda_option == "Price Trend":
         use_container_width=True,
     )
 
-# ------------------------------------------------------------------
-# 3. DISTRIBUTION ANALYSIS
-# ------------------------------------------------------------------
+
 elif eda_option == "Distribution Analysis":
     price_df = pd.read_csv(
         EDA_DIR / "distributions" / "price" / f"{symbol}_price_distribution.csv"
@@ -118,9 +100,7 @@ elif eda_option == "Distribution Analysis":
         use_container_width=True,
     )
 
-# ------------------------------------------------------------------
-# 4. INTER-COIN CORRELATION (AE2-CORRECT LOGIC)
-# ------------------------------------------------------------------
+
 elif eda_option == "Inter-Coin Correlation":
     st.header("Inter-Cryptocurrency Correlation (Returns-Based)")
 
@@ -138,14 +118,12 @@ elif eda_option == "Inter-Coin Correlation":
         )
         coin_corr.columns = ["Coin", "Correlation"]
 
-        # Positive correlations
         top_positive = (
             coin_corr
             .sort_values("Correlation", ascending=False)
             .head(4)
         )
 
-        # True negative correlations (if any)
         negative_corrs = coin_corr[coin_corr["Correlation"] < 0]
 
         if not negative_corrs.empty:
@@ -198,9 +176,6 @@ elif eda_option == "Inter-Coin Correlation":
             + caption_text
         )
 
-# ------------------------------------------------------------------
-# Remaining sections unchanged
-# ------------------------------------------------------------------
 elif eda_option == "OHLCV Correlation":
     corr = pd.read_csv(EDA_DIR / "correlation" / f"{symbol}_corr.csv", index_col=0)
     st.plotly_chart(px.imshow(corr, text_auto=True), use_container_width=True)
