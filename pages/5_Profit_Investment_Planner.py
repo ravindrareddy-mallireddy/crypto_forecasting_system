@@ -22,7 +22,7 @@ horizon_map = {
 }
 
 
-st.title("💰 Profit / Investment Planner")
+st.title("Profit / Investment Planner")
 
 st.markdown(
     """
@@ -49,7 +49,7 @@ forecast_path = os.path.join(MODELS_PATH, forecast_file)
 
 
 if not os.path.exists(forecast_path):
-    st.error("❌ Forecast data not found for the selected options.")
+    st.error("Forecast data not found for the selected options.")
     st.stop()
 
 forecast_df = pd.read_csv(forecast_path, parse_dates=["Date"])
@@ -74,7 +74,7 @@ profit_loss = final_value - investment_amount
 profit_loss_pct = (profit_loss / investment_amount) * 100
 
 
-st.subheader("📅 Optimal Buy & Sell Dates (Forecast-Based)")
+st.subheader("Optimal Buy & Sell Dates (Forecast-Based)")
 
 col1, col2 = st.columns(2)
 
@@ -90,7 +90,7 @@ col2.metric(
     f"${sell_price:.2f}"
 )
 
-st.subheader("📈 Expected Investment Outcome")
+st.subheader("Expected Investment Outcome")
 
 col3, col4 = st.columns(2)
 
@@ -106,7 +106,7 @@ col4.metric(
 )
 
 
-st.subheader("🔍 What-If Scenario Explanation")
+st.subheader("What-If Scenario Explanation")
 
 st.markdown(
     f"""
@@ -119,7 +119,7 @@ st.markdown(
 )
 
 
-st.subheader("📄 Forecast Prices Used")
+st.subheader("Forecast Prices Used")
 
 st.dataframe(
     forecast_df[["Date", "Forecast_Close"]],

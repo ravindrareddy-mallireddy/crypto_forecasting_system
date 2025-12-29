@@ -12,7 +12,7 @@ if not os.path.exists(EVAL_PATH):
 df = pd.read_csv(EVAL_PATH)
 
 
-st.title("📌 Results & Conclusions")
+st.title("Results & Conclusions")
 
 st.markdown(
     """
@@ -23,7 +23,7 @@ st.markdown(
 )
 
 
-st.subheader("📊 Key Performance Indicators (KPIs)")
+st.subheader("Key Performance Indicators (KPIs)")
 
 st.markdown(
     """
@@ -56,7 +56,7 @@ st.markdown(
 )
 
 
-st.subheader("🏆 Best Performing Model per Cryptocurrency (Based on RMSE)")
+st.subheader("Best Performing Model per Cryptocurrency (Based on RMSE)")
 
 best_models = (
     df.sort_values("RMSE")
@@ -70,7 +70,7 @@ st.dataframe(
     use_container_width=True
 )
 
-st.subheader("📈 Model Performance Interpretation")
+st.subheader("Model Performance Interpretation")
 
 st.markdown(
     """
@@ -88,7 +88,7 @@ st.markdown(
 )
 
 
-st.subheader("⚠️ Limitations")
+st.subheader("Limitations")
 
 st.markdown(
     """
@@ -100,7 +100,7 @@ st.markdown(
 )
 
 
-st.subheader("🚀 Future Work")
+st.subheader("Future Work")
 
 st.markdown(
     """
@@ -112,7 +112,7 @@ st.markdown(
 )
 
 
-st.subheader("✅ Final Conclusion")
+st.subheader("Final Conclusion")
 
 st.markdown(
     """

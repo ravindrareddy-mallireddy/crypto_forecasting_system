@@ -20,7 +20,7 @@ horizon_map = {
 }
 
 
-st.title("🌍 Market Overview")
+st.title("Market Overview")
 
 st.markdown(
     """
@@ -87,17 +87,17 @@ market_df = pd.DataFrame(rows)
 
 
 if up_count > down_count:
-    market_trend = "📈 MARKET TREND: UP"
+    market_trend = "MARKET TREND: UP"
     trend_color = "green"
 elif down_count > up_count:
-    market_trend = "📉 MARKET TREND: DOWN"
+    market_trend = "MARKET TREND: DOWN"
     trend_color = "red"
 else:
-    market_trend = "➖ MARKET TREND: NEUTRAL"
+    market_trend = "MARKET TREND: NEUTRAL"
     trend_color = "gray"
 
 
-st.subheader("📊 Aggregate Market Direction")
+st.subheader("Aggregate Market Direction")
 
 st.markdown(
     f"""
@@ -113,7 +113,7 @@ st.caption(
 )
 
 
-st.subheader("🧾 Coin-Level Contribution")
+st.subheader("Coin-Level Contribution")
 
 st.dataframe(
     market_df,
@@ -121,7 +121,7 @@ st.dataframe(
 )
 
 
-st.subheader("🧠 Interpretation")
+st.subheader("Interpretation")
 
 st.markdown(
     f"""

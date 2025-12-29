@@ -8,7 +8,7 @@ EVAL_PATH = "models/evaluation_results.csv"
 
 
 if not os.path.exists(EVAL_PATH):
-    st.error("❌ evaluation_results.csv not found in models folder")
+    st.error("evaluation_results.csv not found in models folder")
     st.stop()
 
 df = pd.read_csv(EVAL_PATH)
@@ -31,7 +31,7 @@ if selected_model != "All":
     filtered_df = filtered_df[filtered_df["Model"] == selected_model]
 
 
-st.title("📊 Model Evaluation & Comparison")
+st.title("Model Evaluation & Comparison")
 
 st.markdown(
     """
@@ -41,7 +41,7 @@ st.markdown(
 )
 
 
-st.subheader("📄 Evaluation Metrics")
+st.subheader("Evaluation Metrics")
 
 st.dataframe(
     filtered_df.sort_values(["Symbol", "RMSE"]),
@@ -49,7 +49,7 @@ st.dataframe(
 )
 
 
-st.subheader("📉 RMSE Comparison")
+st.subheader("RMSE Comparison")
 
 rmse_fig = px.bar(
     filtered_df,
@@ -63,7 +63,7 @@ rmse_fig = px.bar(
 st.plotly_chart(rmse_fig, use_container_width=True)
 
 
-st.subheader("📉 MAE Comparison")
+st.subheader("MAE Comparison")
 
 mae_fig = px.bar(
     filtered_df,
@@ -77,7 +77,7 @@ mae_fig = px.bar(
 st.plotly_chart(mae_fig, use_container_width=True)
 
 
-st.subheader("📉 MAPE (%) Comparison")
+st.subheader("MAPE (%) Comparison")
 
 mape_fig = px.bar(
     filtered_df,
@@ -91,7 +91,7 @@ mape_fig = px.bar(
 st.plotly_chart(mape_fig, use_container_width=True)
 
 
-st.subheader("📈 R² Comparison")
+st.subheader("R² Comparison")
 
 r2_fig = px.bar(
     filtered_df,
@@ -105,7 +105,7 @@ r2_fig = px.bar(
 st.plotly_chart(r2_fig, use_container_width=True)
 
 
-st.subheader("🧠 Quick Insights")
+st.subheader("Quick Insights")
 
 best_rmse = filtered_df.loc[filtered_df["RMSE"].idxmin()]
 best_r2 = filtered_df.loc[filtered_df["R2"].idxmax()]

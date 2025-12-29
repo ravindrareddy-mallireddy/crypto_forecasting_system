@@ -45,7 +45,7 @@ SIGNAL_HORIZONS = {
 }
 
 
-st.sidebar.title("🔮 Forecast Controls")
+st.sidebar.title("Forecast Controls")
 
 coin = st.sidebar.selectbox("Select Coin", coins)
 model_name = st.sidebar.selectbox("Select Model", list(model_map.keys()))
@@ -145,15 +145,15 @@ fig.update_layout(
 )
 
 
-st.title("📈 Forecast")
+st.title("Forecast")
 
 st.plotly_chart(fig, use_container_width=True)
 
-st.markdown("## 📌 Prediction Confidence")
+st.markdown("## Prediction Confidence")
 st.metric("Model Confidence Level", f"{confidence:.2f} %")
 st.caption("Confidence is derived from historical validation accuracy (100 − MAPE).")
 
-st.markdown("## 📊 Buy / Sell Signals")
+st.markdown("## Buy / Sell Signals")
 st.dataframe(signal_df, use_container_width=True)
 
 st.caption(
@@ -163,7 +163,7 @@ st.caption(
 
 
 
-st.subheader("📄 Forecast Data")
+st.subheader("Forecast Data")
 
 st.dataframe(
     forecast_df[["Date", "Forecast_Close"]],
