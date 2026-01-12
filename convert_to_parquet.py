@@ -10,7 +10,6 @@ if not csv_path.exists():
 
 df = pd.read_csv(csv_path)
 
-# Ensure date column is parsed correctly
 if "date" in df.columns:
     df["date"] = pd.to_datetime(df["date"])
 
