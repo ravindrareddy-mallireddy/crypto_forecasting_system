@@ -5,7 +5,7 @@ import os
 
 MODELS_PATH = "models"
 
-coins = ["BTC-USD", "ETH-USD", "XRP-USD", "AVAX-USD"]
+coins = ["BTC-USD", "ETH-USD", "SOL-USD", "AVAX-USD"]
 
 models = {
     "Random Forest": "rf_forecast_next_6_months",

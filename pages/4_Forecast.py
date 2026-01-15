@@ -6,7 +6,7 @@ import os
 
 MODELS_PATH = "models"
 
-coins = ["BTC-USD", "ETH-USD", "XRP-USD", "AVAX-USD"]
+coins = ["BTC-USD", "ETH-USD", "SOL-USD", "AVAX-USD"]
 
 model_map = {
     "Random Forest": {

@@ -6,4 +6,9 @@ prophet
 statsmodels
 scikit-learn
 joblib
+yfinance
+datetime
+statsmodels
+tensorflow
+tensorflow.keras
 # tensorflow  # optional - uncomment if using LSTM
