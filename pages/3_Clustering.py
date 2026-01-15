@@ -6,7 +6,7 @@ import pandas as pd
 from pathlib import Path
 import plotly.express as px
 
-st.set_page_config(page_title="AE2 - Clustering", layout="wide")
+st.set_page_config(page_title=" Clustering", layout="wide")
 
 PROJECT_ROOT = Path(__file__).resolve()
 while PROJECT_ROOT.name != "crypto_forecasting_system":

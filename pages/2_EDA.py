@@ -5,7 +5,7 @@ from pathlib import Path
 import plotly.express as px
 import plotly.graph_objects as go
 
-st.set_page_config(page_title="AE2 - EDA", layout="wide")
+st.set_page_config(page_title=" EDA", layout="wide")
 
 
 PROJECT_ROOT = Path(__file__).resolve()
@@ -43,7 +43,7 @@ def compute_intercoin_correlation():
     return corr
 
 
-st.title("Exploratory Data Analysis (AE2)")
+st.title("Exploratory Data Analysis ")
 
 col1, col2 = st.columns(2)
 with col1:

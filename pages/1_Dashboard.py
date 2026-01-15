@@ -173,7 +173,7 @@ else:
 # Dashboard
 # ===============================
 def dashboard_page(df):
-    st.title("Crypto Dashboard — AE2")
+    st.title("Crypto Dashboard ")
     st.caption("Data source: final_df.csv")
 
     controls = sidebar_controls_impl(df)

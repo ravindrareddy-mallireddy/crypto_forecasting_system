@@ -10,17 +10,6 @@ st.set_page_config(
 def main():
     st.title("Crypto Forecasting System – AE2")
 
-    st.markdown("""
-    ### Welcome
-    Use the navigation menu on the left to open the **Dashboard** page.
-
-    Your dashboard file is located at:
-    `streamlit/pages/1_Dashboard.py`
-
-    Streamlit will automatically load and display that page.
-    """)
-
-    st.info("Go to the sidebar → Pages → 1_Dashboard")
-
+    
 if __name__ == "__main__":
     main()
