@@ -194,7 +194,7 @@ def dashboard_page(df):
 
     kpi = calc_kpis_impl(df_pair)
     c1, c2, c3 = st.columns(3)
-    c1.metric("Price", f"£{kpi['latest_close']:.2f}")
+    c1.metric("Price", f"{kpi['latest_close']:.2f}")
     c2.metric("Change", f"{kpi['pct_change']:.2f}%")
     c3.metric("Volume", f"{kpi['volume']:,}")
 
@@ -212,7 +212,7 @@ def dashboard_page(df):
 
     if st.button("Calculate"):
         res = simulate_profit_impl(kpi["latest_close"], qty, sell)
-        st.metric("Profit", f"£{res['profit']:.2f}")
+        st.metric("Profit", f"{res['profit']:.2f}")
         st.metric("Profit %", f"{res['profit_pct']:.2f}%")
 
 
