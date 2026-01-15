@@ -14,7 +14,7 @@ if not os.path.exists(EVAL_PATH):
 df = pd.read_csv(EVAL_PATH)
 
 
-st.sidebar.title("📊 Evaluation Controls")
+st.sidebar.title(" Evaluation Controls")
 
 coin_options = ["All"] + sorted(df["Symbol"].unique().tolist())
 model_options = ["All"] + sorted(df["Model"].unique().tolist())
