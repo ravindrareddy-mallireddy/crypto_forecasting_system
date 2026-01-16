@@ -21,9 +21,7 @@ import plotly.express as px
 import pandas as pd
 import numpy as np
 
-# -------------------------
-# Basic charts (existing)
-# -------------------------
+
 def candlestick_figure(df: pd.DataFrame, title: str = "OHLC") -> go.Figure:
     df = df.copy()
     fig = go.Figure(data=[go.Candlestick(
@@ -59,9 +57,7 @@ def volume_bar_figure(df: pd.DataFrame, title: str = "Volume") -> go.Figure:
     fig.update_layout(title=title, xaxis=dict(range=[x0, x1] if x0 is not None else None, rangeslider=dict(visible=True)), margin=dict(t=30, b=10))
     return fig
 
-# -------------------------
-# New charts
-# -------------------------
+
 def sma_overlay_figure(df: pd.DataFrame, windows: Optional[List[int]] = None, title: str = "Price + SMA") -> go.Figure:
     """
     Plot close price with simple moving averages overlay.
@@ -89,8 +85,6 @@ def rolling_volatility_figure(df: pd.DataFrame, window: int = 30, title: str = "
     df = df.copy().sort_values("date")
     returns = df["close"].pct_change().fillna(0)
     roll_std = returns.rolling(window=window, min_periods=1).std()
-    # annualize by sqrt(252) if data is daily — keep as-is for weekly/monthly
-    # we will not force annualization here; user can interpret
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=df["date"], y=roll_std, mode="lines", name=f"Rolling STD ({window})"))
     fig.update_layout(title=title + f" ({window} periods)", xaxis=dict(rangeslider=dict(visible=True)), margin=dict(t=30, b=10))
@@ -149,9 +143,7 @@ def recent_activity_table_figure(df: pd.DataFrame, n: int = 20, title: str = "Re
     fig.update_layout(title=title, margin=dict(t=30, b=10))
     return fig
 
-# -------------------------
-# Convenience router
-# -------------------------
+
 def get_figure_by_name(df: pd.DataFrame, name: str, **kwargs) -> go.Figure:
     """
     Map a friendly name to the appropriate figure builder.

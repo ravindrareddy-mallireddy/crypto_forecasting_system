@@ -6,7 +6,7 @@ EVAL_PATH = "models/evaluation_results.csv"
 
 
 if not os.path.exists(EVAL_PATH):
-    st.error("❌ evaluation_results.csv not found")
+    st.error(" evaluation_results.csv not found")
     st.stop()
 
 df = pd.read_csv(EVAL_PATH)

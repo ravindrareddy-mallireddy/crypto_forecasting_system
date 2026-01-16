@@ -5,9 +5,7 @@ import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
 
-# ===============================
-# Optional src imports
-# ===============================
+
 _USE_SRC = False
 try:
     from src.io import load_dataset
@@ -19,15 +17,9 @@ except Exception:
     pass
 
 
-# ===============================
-# Dataset loader (CSV ONLY)
-# ===============================
+
 def _get_csv_path() -> Path:
-    """
-    Resolve final_df.csv from:
-    CRYPTO_FORECASTING_SYSTEM/data/processed/final_df.csv
-    Works regardless of Streamlit page location.
-    """
+   
     current_file = Path(__file__).resolve()
 
     for parent in current_file.parents:
@@ -74,13 +66,11 @@ def load_dataset_impl():
     csv_path = _get_csv_path()
     return _load_csv_cached(
         str(csv_path),
-        csv_path.stat().st_mtime  # cache invalidates when CSV changes
+        csv_path.stat().st_mtime  
     )
 
 
-# ===============================
-# Fallback UI / logic
-# ===============================
+
 def _sidebar_controls_fallback(df):
     st.sidebar.header("Controls")
 
@@ -140,18 +130,14 @@ def _calc_kpis_fallback(df):
     }
 
 
-# ===============================
-# Charts (unchanged)
-# ===============================
+
 def _line(df, title):
     fig = go.Figure(go.Scatter(x=df["date"], y=df["close"], mode="lines"))
     fig.update_layout(title=title, xaxis_rangeslider_visible=True)
     return fig
 
 
-# ===============================
-# Bind implementations
-# ===============================
+
 if _USE_SRC:
     sidebar_controls_impl = sidebar_controls
     resample_df_impl = resample_df
@@ -169,9 +155,7 @@ else:
     }
 
 
-# ===============================
-# Dashboard
-# ===============================
+
 def dashboard_page(df):
     st.title("Crypto Dashboard ")
     st.caption("Data source: final_df.csv")
@@ -216,9 +200,7 @@ def dashboard_page(df):
         st.metric("Profit %", f"{res['profit_pct']:.2f}%")
 
 
-# ===============================
-# Run app
-# ===============================
+
 try:
     df_main = load_dataset_impl()
     dashboard_page(df_main)
